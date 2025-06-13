@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Générateur de texte local</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .copied-alert {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <h1 class="text-center mb-4">🧠 Générateur de texte local (sans API)</h1>
+    <form method="POST" class="mb-4">
+        <div class="mb-3">
+            <label for="idee" class="form-label">💡 Ton idée :</label>
+            <input type="text" name="idee" id="idee" class="form-control" required placeholder="Ex: sac de sport léger">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">🎯 Type de texte :</label>
+            <select name="mode" class="form-select">
+                <option value="description">Description produit</option>
+                <option value="titre">Titre accrocheur</option>
+                <option value="email">Email promotionnel</option>
+            </select>
+        </div>
+        <div id="spinner" class="text-center mb-3" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Générer ✨</button>
+    </form>
+
+    {% if result is not none %}
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">📝 Texte généré :</h5>
+            <textarea id="generatedText" class="form-control mb-2" rows="6" readonly>{{ result }}</textarea>
+            <button onclick="copyText()" class="btn btn-outline-secondary">📋 Copier le texte</button>
+            <div id="copiedAlert" class="alert alert-success copied-alert">✅ Copié !</div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if historique %}
+    <div class="mt-5">
+        <h5>🕘 Historique de génération :</h5>
+        <ul class="list-group">
+            {% for item in historique %}
+                <li class="list-group-item">{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function copyText() {
+        const text = document.getElementById("generatedText");
+        text.select();
+        document.execCommand("copy");
+        const alert = document.getElementById("copiedAlert");
+        alert.style.display = "block";
+        setTimeout(() => { alert.style.display = "none"; }, 2000);
+    }
+
+    document.querySelector("form").addEventListener("submit", () => {
+        document.getElementById("spinner").style.display = "block";
+    });
+</script>
+</body>
+</html>
