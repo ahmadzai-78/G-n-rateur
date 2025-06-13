@@ -21,7 +21,7 @@ Jinja2
 
 ▶️ Lancer le projet
 Clone le dépôt :
-git clone 
+git clone https://github.com/ahmadzai-78/G-n-rateur.git
 cd generateur-local
 Installe les dépendances :
 
